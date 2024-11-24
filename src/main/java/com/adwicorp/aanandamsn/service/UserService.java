@@ -39,13 +39,13 @@ public class UserService {
             return "User saved successfully";
         } catch (DataIntegrityViolationException e) {
             String column = "";
-            Throwable cause = e.getCause();
+            Throwable cause = e.getCause().getCause();
             if (cause != null && cause.getMessage() != null) {
                 String message = cause.getMessage();
-                if (message.contains("column")) {
-                    int startIndex = message.indexOf("column") + 7;
+                if (message.contains("entry")) {
+                    int startIndex = message.indexOf("entry") + 7;
                     int endIndex = message.indexOf(" ", startIndex);
-                    return message.substring(startIndex, endIndex).trim();
+                    column = message.substring(startIndex, endIndex).trim();
                 }
             }
             throw new BusinessException(ErrorCodes.DB_EXISTING_DATA,
