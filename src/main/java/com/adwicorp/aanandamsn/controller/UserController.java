@@ -1,14 +1,11 @@
 package com.adwicorp.aanandamsn.controller;
 
-import com.adwicorp.aanandamsn.exception.BusinessException;
-import com.adwicorp.aanandamsn.exception.ErrorCodes;
 import com.adwicorp.aanandamsn.request.UserRequest;
 import com.adwicorp.aanandamsn.response.ApiResponse;
 import com.adwicorp.aanandamsn.request.UserUpdateRequest;
 import com.adwicorp.aanandamsn.response.UserResponse;
 import com.adwicorp.aanandamsn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -28,19 +25,6 @@ public class UserController {
                 .message("Data fetched successfully")
                 .status(HttpStatus.OK)
                 .build();
-//        try {
-//            List<UserResponse> users = userService.getAllUsers();
-//            return ApiResponse.<List<UserResponse>>builder()
-//                    .data(users)
-//                    .message("Data fetched successfully")
-//                    .status(HttpStatus.OK)
-//                    .build();
-//        } catch (Exception e) {
-//            return ApiResponse.<List<UserResponse>>builder()
-//                    .errorDetails(e.getMessage())
-//                    .status(HttpStatus.BAD_REQUEST)
-//                    .build();
-//        }
     }
 
     @PostMapping
@@ -50,23 +34,6 @@ public class UserController {
                 .message(message)
                 .status(HttpStatus.OK)
                 .build();
-//        try {
-//            String message = userService.saveUser(userRequest);
-//            return ApiResponse.<String>builder()
-//                    .message(message)
-//                    .status(HttpStatus.OK)
-//                    .build();
-//        } catch (DataIntegrityViolationException e) {
-//            return ApiResponse.<String>builder()
-//                    .errorDetails(e.getMessage())
-//                    .status(HttpStatus.CONFLICT)
-//                    .build();
-//        } catch (Exception e) {
-//            return ApiResponse.<String>builder()
-//                    .errorDetails("An unexpected error occurred: " + e.getMessage())
-//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
     }
 
     @PutMapping("/{userId}")
@@ -76,24 +43,6 @@ public class UserController {
                 .message(message)
                 .status(HttpStatus.OK)
                 .build();
-//        try {
-//            String message = userService.updateUser(userId, userUpdateRequest);
-//            return ApiResponse.<String>builder()
-//                    .message(message)
-//                    .status(HttpStatus.OK)
-//                    .build();
-//        } catch (DataIntegrityViolationException e) {
-//            new BusinessException(ErrorCodes.PARAM_INVALID, ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.PARAM_INVALID));
-//            return ApiResponse.<String>builder()
-//                    .errorDetails(e.getRootCause().getMessage())
-//                    .status(HttpStatus.CONFLICT)
-//                    .build();
-//        } catch (Exception e) {
-//            return ApiResponse.<String>builder()
-//                    .errorDetails("An unexpected error occurred: " + e.getMessage())
-//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
     }
 
     @DeleteMapping("/{userId}")
@@ -103,22 +52,5 @@ public class UserController {
                 .message(message)
                 .status(HttpStatus.OK)
                 .build();
-//        try {
-//            String message = userService.deleteUser(userId);
-//            return ApiResponse.<String>builder()
-//                    .message(message)
-//                    .status(HttpStatus.OK)
-//                    .build();
-//        } catch (DataIntegrityViolationException e) {
-//            return ApiResponse.<String>builder()
-//                    .errorDetails(e.getMessage())
-//                    .status(HttpStatus.CONFLICT)
-//                    .build();
-//        } catch (Exception e) {
-//            return ApiResponse.<String>builder()
-//                    .errorDetails("An unexpected error occurred: " + e.getMessage())
-//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
     }
 }

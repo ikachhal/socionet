@@ -72,13 +72,6 @@ public class UserService {
         return "User deleted successfully";
     }
 }
-//global exception handler covering business exc & exce
-//
-//controller should not have any exception handeling
-//
-//logger implement (follow specified format, trace id, rolling file appender 100 mb each file max 10 files) log stack trace
-//
-//mockito testing
 
 
 
