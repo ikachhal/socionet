@@ -12,5 +12,5 @@ public class ApiResponse<T> {
     private HttpStatus status;
     private String message;
     private T data;
-    private String errorDetails;
+    private ApiError errorDetails;
 }

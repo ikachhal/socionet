@@ -22,82 +22,103 @@ public class UserController {
 
     @GetMapping
     public ApiResponse<List<UserResponse>> getUsers(){
-        try {
-            List<UserResponse> users = userService.getAllUsers();
-            return ApiResponse.<List<UserResponse>>builder()
-                    .data(users)
-                    .message("Data fetched successfully")
-                    .status(HttpStatus.OK)
-                    .build();
-        } catch (Exception e) {
-            return ApiResponse.<List<UserResponse>>builder()
-                    .errorDetails(e.getMessage())
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
-        }
+        List<UserResponse> users = userService.getAllUsers();
+        return ApiResponse.<List<UserResponse>>builder()
+                .data(users)
+                .message("Data fetched successfully")
+                .status(HttpStatus.OK)
+                .build();
+//        try {
+//            List<UserResponse> users = userService.getAllUsers();
+//            return ApiResponse.<List<UserResponse>>builder()
+//                    .data(users)
+//                    .message("Data fetched successfully")
+//                    .status(HttpStatus.OK)
+//                    .build();
+//        } catch (Exception e) {
+//            return ApiResponse.<List<UserResponse>>builder()
+//                    .errorDetails(e.getMessage())
+//                    .status(HttpStatus.BAD_REQUEST)
+//                    .build();
+//        }
     }
 
     @PostMapping
     public ApiResponse<String> saveUser(@RequestBody UserRequest userRequest) {
-        try {
-            String message = userService.saveUser(userRequest);
-            return ApiResponse.<String>builder()
-                    .message(message)
-                    .status(HttpStatus.OK)
-                    .build();
-        } catch (DataIntegrityViolationException e) {
-            return ApiResponse.<String>builder()
-                    .errorDetails(e.getMessage())
-                    .status(HttpStatus.CONFLICT)
-                    .build();
-        } catch (Exception e) {
-            return ApiResponse.<String>builder()
-                    .errorDetails("An unexpected error occurred: " + e.getMessage())
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
+        String message = userService.saveUser(userRequest);
+        return ApiResponse.<String>builder()
+                .message(message)
+                .status(HttpStatus.OK)
+                .build();
+//        try {
+//            String message = userService.saveUser(userRequest);
+//            return ApiResponse.<String>builder()
+//                    .message(message)
+//                    .status(HttpStatus.OK)
+//                    .build();
+//        } catch (DataIntegrityViolationException e) {
+//            return ApiResponse.<String>builder()
+//                    .errorDetails(e.getMessage())
+//                    .status(HttpStatus.CONFLICT)
+//                    .build();
+//        } catch (Exception e) {
+//            return ApiResponse.<String>builder()
+//                    .errorDetails("An unexpected error occurred: " + e.getMessage())
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .build();
+//        }
     }
 
     @PutMapping("/{userId}")
     public ApiResponse<String> updateUser(@PathVariable("userId") Long userId, @RequestBody UserUpdateRequest userUpdateRequest) {
-        try {
-            String message = userService.updateUser(userId, userUpdateRequest);
-            return ApiResponse.<String>builder()
-                    .message(message)
-                    .status(HttpStatus.OK)
-                    .build();
-        } catch (DataIntegrityViolationException e) {
-            new BusinessException(ErrorCodes.PARAM_INVALID, ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.PARAM_INVALID));
-            return ApiResponse.<String>builder()
-                    .errorDetails(e.getRootCause().getMessage())
-                    .status(HttpStatus.CONFLICT)
-                    .build();
-        } catch (Exception e) {
-            return ApiResponse.<String>builder()
-                    .errorDetails("An unexpected error occurred: " + e.getMessage())
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
+        String message = userService.updateUser(userId, userUpdateRequest);
+        return ApiResponse.<String>builder()
+                .message(message)
+                .status(HttpStatus.OK)
+                .build();
+//        try {
+//            String message = userService.updateUser(userId, userUpdateRequest);
+//            return ApiResponse.<String>builder()
+//                    .message(message)
+//                    .status(HttpStatus.OK)
+//                    .build();
+//        } catch (DataIntegrityViolationException e) {
+//            new BusinessException(ErrorCodes.PARAM_INVALID, ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.PARAM_INVALID));
+//            return ApiResponse.<String>builder()
+//                    .errorDetails(e.getRootCause().getMessage())
+//                    .status(HttpStatus.CONFLICT)
+//                    .build();
+//        } catch (Exception e) {
+//            return ApiResponse.<String>builder()
+//                    .errorDetails("An unexpected error occurred: " + e.getMessage())
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .build();
+//        }
     }
 
     @DeleteMapping("/{userId}")
     public ApiResponse<String> deleteUser(@PathVariable("userId") Long userId) {
-        try {
-            String message = userService.deleteUser(userId);
-            return ApiResponse.<String>builder()
-                    .message(message)
-                    .status(HttpStatus.OK)
-                    .build();
-        } catch (DataIntegrityViolationException e) {
-            return ApiResponse.<String>builder()
-                    .errorDetails(e.getMessage())
-                    .status(HttpStatus.CONFLICT)
-                    .build();
-        } catch (Exception e) {
-            return ApiResponse.<String>builder()
-                    .errorDetails("An unexpected error occurred: " + e.getMessage())
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
+        String message = userService.deleteUser(userId);
+        return ApiResponse.<String>builder()
+                .message(message)
+                .status(HttpStatus.OK)
+                .build();
+//        try {
+//            String message = userService.deleteUser(userId);
+//            return ApiResponse.<String>builder()
+//                    .message(message)
+//                    .status(HttpStatus.OK)
+//                    .build();
+//        } catch (DataIntegrityViolationException e) {
+//            return ApiResponse.<String>builder()
+//                    .errorDetails(e.getMessage())
+//                    .status(HttpStatus.CONFLICT)
+//                    .build();
+//        } catch (Exception e) {
+//            return ApiResponse.<String>builder()
+//                    .errorDetails("An unexpected error occurred: " + e.getMessage())
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .build();
+//        }
     }
 }

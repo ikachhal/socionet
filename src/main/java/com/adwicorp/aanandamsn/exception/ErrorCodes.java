@@ -33,7 +33,7 @@ public class ErrorCodes {
     static {
         ERROR_CODE_MESSAGE_MAP.put(INTERNAL_SERVER_ERROR, "Internal server error occurred");
         ERROR_CODE_MESSAGE_MAP.put(DB_NO_DATA, "No data found in db");
-        ERROR_CODE_MESSAGE_MAP.put(DB_EXISTING_DATA, "Data already exists with {parameter} in db");
+        ERROR_CODE_MESSAGE_MAP.put(DB_EXISTING_DATA, "Data already exists in db for column:");
         ERROR_CODE_MESSAGE_MAP.put(DB_EXCEED_DATA, "More number of characters provided in {parameter} to store in db");
         ERROR_CODE_MESSAGE_MAP.put(PARAM_MISSING, "Missing mandatory parameter {parameter} not provided in the request");
         ERROR_CODE_MESSAGE_MAP.put(PARAM_INVALID, "Invalid mandatory parameter {parameter} provided in the request");

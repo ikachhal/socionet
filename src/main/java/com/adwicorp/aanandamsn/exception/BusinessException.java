@@ -1,5 +1,8 @@
 package com.adwicorp.aanandamsn.exception;
 
+import lombok.Data;
+
+@Data
 public class BusinessException extends RuntimeException {
     private final String errorCode;
 
