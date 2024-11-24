@@ -1,5 +1,7 @@
 package com.adwicorp.aanandamsn.controller;
 
+import com.adwicorp.aanandamsn.exception.BusinessException;
+import com.adwicorp.aanandamsn.exception.ErrorCodes;
 import com.adwicorp.aanandamsn.request.UserRequest;
 import com.adwicorp.aanandamsn.response.ApiResponse;
 import com.adwicorp.aanandamsn.request.UserUpdateRequest;
@@ -65,8 +67,9 @@ public class UserController {
                     .status(HttpStatus.OK)
                     .build();
         } catch (DataIntegrityViolationException e) {
+            new BusinessException(ErrorCodes.PARAM_INVALID, ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.PARAM_INVALID));
             return ApiResponse.<String>builder()
-                    .errorDetails(e.getMessage())
+                    .errorDetails(e.getRootCause().getMessage())
                     .status(HttpStatus.CONFLICT)
                     .build();
         } catch (Exception e) {
