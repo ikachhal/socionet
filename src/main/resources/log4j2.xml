@@ -1,0 +1,35 @@
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_LEVEL">DEBUG</Property>
+        <Property name="LOG_FILE">logs/socionet.log</Property>
+    </Properties>
+
+    <!-- Console Appender -->
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+            </PatternLayout>
+        </Console>
+
+        <!-- Rolling File Appender -->
+        <RollingFile name="RollingFile" fileName="${LOG_FILE}" filePattern="logs/socionet-%d{yyyy-MM-dd}-%i.log" createOnDemand="true">
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+            </PatternLayout>
+        </RollingFile>
+    </Appenders>
+
+    <!-- Root Logger -->
+    <Loggers>
+        <Root level="${LOG_LEVEL}">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
