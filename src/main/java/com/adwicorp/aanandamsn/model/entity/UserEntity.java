@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class User {
 
     private String imagePath;
 
-    @Column(name = "created_on", updatable = false)
+    @Column(updatable = false)
     private LocalDateTime createdOn;
 
     private LocalDateTime updatedOn;
