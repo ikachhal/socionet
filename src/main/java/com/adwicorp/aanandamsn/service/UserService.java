@@ -1,15 +1,13 @@
 package com.adwicorp.aanandamsn.service;
 
-import com.adwicorp.aanandamsn.controller.UserController;
-import com.adwicorp.aanandamsn.entity.User;
+import com.adwicorp.aanandamsn.model.entity.UserEntity;
 import com.adwicorp.aanandamsn.exception.BusinessException;
 import com.adwicorp.aanandamsn.exception.ErrorCodes;
 import com.adwicorp.aanandamsn.mapper.UserMapper;
+import com.adwicorp.aanandamsn.model.request.UpdateUserRequest;
 import com.adwicorp.aanandamsn.repository.UserRepository;
-import com.adwicorp.aanandamsn.request.UserRequest;
-import com.adwicorp.aanandamsn.request.UserUpdateRequest;
-import com.adwicorp.aanandamsn.response.UserResponse;
-import com.adwicorp.aanandamsn.traceconfig.TraceContext;
+import com.adwicorp.aanandamsn.model.request.UserRequest;
+import com.adwicorp.aanandamsn.model.response.UserResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,25 +29,21 @@ public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public List<UserResponse> getAllUsers() {
-        String traceId = TraceContext.getTraceId();
-        logger.info("UserService::GetAllUsers::TraceID {}", traceId);
         try {
-            List<User> userList = userRepository.findByIsDeletedFalse();
+            List<UserEntity> userList = userRepository.findByDeletedFalse();
             List<UserResponse> userResponses = userList.stream()
                     .map(x -> userMapper.mapToUserResponse(x))
                     .collect(Collectors.toList());
             return userResponses;
         } catch (Exception e) {
-            logger.info("UserService::SaveUser::TraceID {}::Error {}", traceId, e.getStackTrace());
+            logger.error("Error occurred while fetching user details : {}", e.getStackTrace());
             throw new BusinessException(ErrorCodes.INTERNAL_SERVER_ERROR,
                     ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.INTERNAL_SERVER_ERROR));
         }
     }
 
     public String saveUser(UserRequest userRequest) {
-        String traceId = TraceContext.getTraceId();
-        logger.info("UserService::SaveUser::TraceID {}", traceId);
-        User user = userMapper.mapToUser(userRequest);
+        UserEntity user = userMapper.mapToUser(userRequest);
         try {
             userRepository.save(user);
             return "User saved successfully";
@@ -63,12 +57,15 @@ public class UserService {
                     int endIndex = message.indexOf(" ", startIndex);
                     column = message.substring(startIndex, endIndex).trim();
                 }
+                logger.error("Error occurred while saving user error {}", e.getStackTrace());
+                throw new BusinessException(ErrorCodes.DB_EXISTING_DATA,
+                        ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.DB_EXISTING_DATA) + column);
             }
-            logger.info("UserService::SaveUser::TraceID {}::Error {}", traceId, e.getStackTrace());
-            throw new BusinessException(ErrorCodes.DB_EXISTING_DATA,
-                    ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.DB_EXISTING_DATA) + column);
+            logger.error("Error occurred while saving user error {}", e.getStackTrace());
+            throw new BusinessException(ErrorCodes.PARAM_MISSING,
+                    ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.PARAM_MISSING));
         } catch (Exception e) {
-            logger.info("UserService::SaveUser::TraceID {}::Error {}", traceId, e.getStackTrace());
+            logger.error("Error occurred while saving user error {}", e.getStackTrace());
             throw new BusinessException(ErrorCodes.INTERNAL_SERVER_ERROR,
                     ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.INTERNAL_SERVER_ERROR));
         }
@@ -76,31 +73,14 @@ public class UserService {
 
     }
 
-    public String updateUser(Long userId, UserUpdateRequest userUpdateRequest) throws DataIntegrityViolationException{
-        String traceId = TraceContext.getTraceId();
-        logger.info("UserService::UpdateUser::TraceID {}", traceId);
+    public String updateUser(Long userId, UpdateUserRequest updateUserRequest) throws DataIntegrityViolationException{
         try {
-            User user = userRepository.findByUserId(userId);
-            user = userMapper.mapToUserUpdate(user, userUpdateRequest);
+            UserEntity user = userRepository.findByUserId(userId);
+            user = userMapper.mapToUserUpdate(user, updateUserRequest);
             userRepository.save(user);
             return "User updated successfully";
         } catch (Exception e) {
-            logger.info("UserService::SaveUser::TraceID {}::Error {}", traceId, e.getStackTrace());
-            throw new BusinessException(ErrorCodes.INTERNAL_SERVER_ERROR,
-                    ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.INTERNAL_SERVER_ERROR));
-        }
-    }
-
-    public String deleteUser(Long userId) {
-        String traceId = TraceContext.getTraceId();
-        logger.info("UserService::DeleteUser::TraceID {}", traceId);
-        try {
-            User user = userRepository.findByUserId(userId);
-            user.setDeleted(true);
-            userRepository.save(user);
-            return "User deleted successfully";
-        } catch (Exception e) {
-            logger.info("UserService::SaveUser::TraceID {}::Error {}", traceId, e.getStackTrace());
+            logger.error("Error occurred while updating user details : {}", e.getStackTrace());
             throw new BusinessException(ErrorCodes.INTERNAL_SERVER_ERROR,
                     ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.INTERNAL_SERVER_ERROR));
         }

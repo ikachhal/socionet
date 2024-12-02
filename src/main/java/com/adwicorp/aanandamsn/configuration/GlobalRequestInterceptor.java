@@ -1,4 +1,4 @@
-package com.adwicorp.aanandamsn.traceconfig;
+package com.adwicorp.aanandamsn.configuration;
 
 import com.adwicorp.aanandamsn.exception.BusinessException;
 import com.adwicorp.aanandamsn.exception.ErrorCodes;
@@ -24,6 +24,11 @@ public class GlobalRequestInterceptor {
     @Before("within(@org.springframework.web.bind.annotation.RestController *)")
     public void validateHeaders(JoinPoint joinPoint) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        // Skip validation for Swagger UI and API Docs
+        String requestURI = request.getRequestURI();
+        if (requestURI.contains("/swagger-ui") || requestURI.contains("/v3/api-docs")) {
+            return; // Skip validation
+        }
         String traceId = request.getHeader("X-Trace-ID");
         // Validate if header is missing
         if (traceId == null || traceId.isBlank()) {
@@ -31,6 +36,7 @@ public class GlobalRequestInterceptor {
             throw new BusinessException(ErrorCodes.PARAM_MISSING,
                     ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.PARAM_MISSING) + "X-Trace-ID");
         }
+        MDC.put("trace_id", traceId);
     }
 
     @After("@annotation(org.springframework.web.bind.annotation.RequestMapping)")

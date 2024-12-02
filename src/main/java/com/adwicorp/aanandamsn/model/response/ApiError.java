@@ -1,4 +1,4 @@
-package com.adwicorp.aanandamsn.response;
+package com.adwicorp.aanandamsn.model.response;
 
 import lombok.Builder;
 import lombok.Data;

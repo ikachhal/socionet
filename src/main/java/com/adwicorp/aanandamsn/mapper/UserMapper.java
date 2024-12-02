@@ -1,39 +1,42 @@
 package com.adwicorp.aanandamsn.mapper;
 
-import com.adwicorp.aanandamsn.entity.User;
-import com.adwicorp.aanandamsn.request.UserRequest;
-import com.adwicorp.aanandamsn.response.UserResponse;
-import com.adwicorp.aanandamsn.request.UserUpdateRequest;
+import com.adwicorp.aanandamsn.model.entity.UserEntity;
+import com.adwicorp.aanandamsn.model.request.UpdateUserRequest;
+import com.adwicorp.aanandamsn.model.request.UserRequest;
+import com.adwicorp.aanandamsn.model.response.UserResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public User mapToUser(UserRequest userRequest) {
-        return User.builder()
+    public UserEntity mapToUser(UserRequest userRequest) {
+        return UserEntity.builder()
                 .userNameId(userRequest.getUserNameId())
                 .fullName(userRequest.getFullName())
                 .email(userRequest.getEmail())
                 .build();
     }
 
-    public User mapToUserUpdate(User user, UserUpdateRequest userUpdateRequest) {
-        if (userUpdateRequest.getEmail() != null){
-            user.setEmail(userUpdateRequest.getEmail());
+    public UserEntity mapToUserUpdate(UserEntity user, UpdateUserRequest updateUserRequest) {
+        if (updateUserRequest.getEmail() != null){
+            user.setEmail(updateUserRequest.getEmail());
         }
-        if (userUpdateRequest.getFullName() != null) {
-            user.setFullName(userUpdateRequest.getFullName());
+        if (updateUserRequest.getFullName() != null) {
+            user.setFullName(updateUserRequest.getFullName());
         }
-        if (userUpdateRequest.getUserNameId() != null) {
-            user.setUserNameId(userUpdateRequest.getUserNameId());
+        if (updateUserRequest.getUserNameId() != null) {
+            user.setUserNameId(updateUserRequest.getUserNameId());
         }
-        if(userUpdateRequest.getImagePath() != null) {
-            user.setImagePath(userUpdateRequest.getImagePath());
+        if(updateUserRequest.getImagePath() != null) {
+            user.setImagePath(updateUserRequest.getImagePath());
+        }
+        if(updateUserRequest.isDeleted()) {
+            user.setDeleted(updateUserRequest.isDeleted());
         }
         return user;
     }
 
-    public UserResponse mapToUserResponse(User user) {
+    public UserResponse mapToUserResponse(UserEntity user) {
         return UserResponse.builder()
                 .userId(user.getUserId())
                 .userNameId(user.getUserNameId())

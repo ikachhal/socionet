@@ -8,7 +8,7 @@
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout>
-                <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} - %-5level - %X{trace_id} - %C - %M - %msg%n</pattern>
             </PatternLayout>
         </Console>
 
@@ -20,7 +20,7 @@
             </Policies>
             <DefaultRolloverStrategy max="10"/>
             <PatternLayout>
-                <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} - %-5level - %X{trace_id} - %C - %M - %msg%n</pattern>
             </PatternLayout>
         </RollingFile>
     </Appenders>

@@ -1,4 +1,4 @@
-package com.adwicorp.aanandamsn.response;
+package com.adwicorp.aanandamsn.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

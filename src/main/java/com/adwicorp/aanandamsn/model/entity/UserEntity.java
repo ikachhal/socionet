@@ -1,4 +1,4 @@
-package com.adwicorp.aanandamsn.entity;
+package com.adwicorp.aanandamsn.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,11 +21,13 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @NotBlank(message = "User name Id must not be empty")
     @Column(nullable = false, unique = true)
     private String userNameId;
 
     private String fullName;
 
+    @NotBlank(message = "Email must not be empty")
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -35,7 +38,7 @@ public class UserEntity {
 
     private LocalDateTime updatedOn;
 
-    private boolean isDeleted;
+    private boolean deleted;
 
     @Override
     public String toString() {
@@ -47,7 +50,7 @@ public class UserEntity {
                 ", imagePath='" + imagePath + '\'' +
                 ", createdOn=" + createdOn +
                 ", updatedOn=" + updatedOn +
-                ", isDeleted=" + isDeleted +
+                ", isDeleted=" + deleted +
                 '}';
     }
 }

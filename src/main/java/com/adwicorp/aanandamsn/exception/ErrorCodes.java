@@ -35,7 +35,7 @@ public class ErrorCodes {
         ERROR_CODE_MESSAGE_MAP.put(DB_NO_DATA, "No data found in db");
         ERROR_CODE_MESSAGE_MAP.put(DB_EXISTING_DATA, "Data already exists in db : ");
         ERROR_CODE_MESSAGE_MAP.put(DB_EXCEED_DATA, "More number of characters provided in {parameter} to store in db");
-        ERROR_CODE_MESSAGE_MAP.put(PARAM_MISSING, "Missing mandatory parameter {parameter} not provided in the request");
+        ERROR_CODE_MESSAGE_MAP.put(PARAM_MISSING, "Missing mandatory parameter in the request: ");
         ERROR_CODE_MESSAGE_MAP.put(PARAM_INVALID, "Invalid mandatory parameter {parameter} provided in the request");
         ERROR_CODE_MESSAGE_MAP.put(PARAM_INVALID_WITH_SPACE, "Space is not allowed in parameter {parameter} provided in the request");
         ERROR_CODE_MESSAGE_MAP.put(TIME_EXCEEDED, "Time required for updating event exceeded");
