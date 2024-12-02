@@ -36,6 +36,7 @@ public class UserEntity {
     @Column(updatable = false)
     private LocalDateTime createdOn;
 
+    @Column(insertable = false, updatable = false)
     private LocalDateTime updatedOn;
 
     private boolean deleted;
