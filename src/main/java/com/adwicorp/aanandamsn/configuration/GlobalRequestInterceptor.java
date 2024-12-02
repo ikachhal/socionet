@@ -17,31 +17,24 @@ import javax.servlet.http.HttpServletRequest;
 
 @Aspect
 @Component
-public class TraceIdAspect {
+public class GlobalRequestInterceptor {
 
-    private static final Logger logger = LoggerFactory.getLogger(TraceIdAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalRequestInterceptor.class);
 
     @Before("within(@org.springframework.web.bind.annotation.RestController *)")
     public void validateHeaders(JoinPoint joinPoint) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String traceId = request.getHeader("X-Trace-ID");
-//        if (traceId == null) {
-//            traceId = UUID.randomUUID().toString();
-//        }
-//        TraceContext.setTraceId(traceId);
-//        logger.info("Captured Trace ID: {}", traceId);
-        MDC.put("trace_id", traceId);  // Add traceId directly to MDC for logging
         // Validate if header is missing
         if (traceId == null || traceId.isBlank()) {
             logger.error("Missing or empty X-Trace-ID header");
-            throw new BusinessException(ErrorCodes.INTERNAL_SERVER_ERROR,
-                    ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.INTERNAL_SERVER_ERROR));
+            throw new BusinessException(ErrorCodes.PARAM_MISSING,
+                    ErrorCodes.ERROR_CODE_MESSAGE_MAP.get(ErrorCodes.PARAM_MISSING) + "X-Trace-ID");
         }
     }
 
     @After("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void clearTraceId() {
-        TraceContext.clear();
         MDC.remove("trace_id");
     }
 }
