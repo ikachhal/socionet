@@ -50,8 +50,8 @@ public class UserController {
     }
 
     @Operation(summary = "Update a user", description = "Update an existing user by ID.")
-    @PutMapping("/{userId}")
-    public ApiResponse<String> updateUser(@PathVariable("userId") Long userId, @RequestBody UpdateUserRequest updateUserRequest) {
+    @PutMapping
+    public ApiResponse<String> updateUser(@RequestHeader("userId") Long userId, @RequestBody UpdateUserRequest updateUserRequest) {
         logger.info("Save user request received");
         String message = userService.updateUser(userId, updateUserRequest);
         logger.info("Save user request fulfilled");
