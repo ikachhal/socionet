@@ -5,6 +5,7 @@ import com.adwicorp.aanandamsn.model.request.UserRequest;
 import com.adwicorp.aanandamsn.model.response.ApiResponse;
 import com.adwicorp.aanandamsn.model.response.UserResponse;
 import com.adwicorp.aanandamsn.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,6 +24,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -39,7 +45,7 @@ public class UserController {
 
     @Operation(summary = "Save a user", description = "Add a new user to the system.")
     @PostMapping
-    public ApiResponse<String> saveUser(@RequestBody UserRequest userRequest) {
+    public ApiResponse<String> saveUser(@Valid @RequestBody UserRequest userRequest) {
         logger.info("Save user request received");
         String message = userService.saveUser(userRequest);
         logger.info("Save user request fulfilled");

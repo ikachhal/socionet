@@ -2,6 +2,9 @@ package com.adwicorp.aanandamsn.exception;
 
 import com.adwicorp.aanandamsn.model.response.ApiError;
 import com.adwicorp.aanandamsn.model.response.ApiResponse;
+import com.adwicorp.aanandamsn.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,6 +17,8 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ApiResponse<?>> handleBusinessException(BusinessException ex) {
@@ -40,7 +45,7 @@ public class GlobalExceptionHandler {
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
             validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
-
+        logger.error("Error occurred while processing the request : {}", validationErrors);
         // Throw BusinessException with error details
         BusinessException businessException = new BusinessException(
                 ErrorCodes.PARAM_MISSING,
